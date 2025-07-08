@@ -1,0 +1,14 @@
+# Dependencies
+node_modules
+
+# yarn error logs
+yarn-error.log
+
+# Environment variables
+.env
+
+# Code coverage
+coverage
+
+# temp
+temp
