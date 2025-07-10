@@ -1,6 +1,7 @@
 import express from 'express';
 import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
+import { xss } from 'express-xss-sanitizer';
 import compression from 'compression';
 import cors from 'cors';
 import httpStatus from 'http-status';
@@ -13,7 +14,7 @@ import mdwr_error_converter from './middlewares/error-converter.mdwr.js';
 import mdwr_error_handler from './middlewares/error-handler.mdwr.js';
 import Utl_Api_Error from './utilities/Api-error.utl.js';
 
-// TODO Importing the v1 route:
+import route_v1 from './routes/v1/index-v1.js';
 
 // initialize express app:
 const kangae_app = express();
@@ -32,6 +33,7 @@ kangae_app.use(express.json());
 kangae_app.use(express.urlencoded({ extended: true }));
 
 // sanitize request data:
+kangae_app.use(xss());
 kangae_app.use(mongoSanitize());
 
 // gzip compression:
@@ -47,7 +49,8 @@ if (cnf_env_variables.env_mode === 'production') {
   kangae_app.use('/v1/auth', mdwr_rate_limiter);
 }
 
-// TODO v1 APIs: `/v1`
+// v1 APIs: `/v1`
+kangae_app.use('/v1', route_v1);
 
 // send back a 404 error for any unknown api request:
 kangae_app.use((p_request, p_response, p_next) => {
