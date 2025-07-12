@@ -4,7 +4,7 @@
  * @param {Object} p_helpers - The Joi validation helpers
  * @returns {string} - The validated password or an error message
  */
-const vld_password_field = (p_value, p_helpers) => {
+export const password_field = (p_value, p_helpers) => {
   // Check if the password meets the criteria:
   // 1.
   if (p_value.length < 8) {
@@ -19,4 +19,3 @@ const vld_password_field = (p_value, p_helpers) => {
   return p_value;
 };
 
-export default vld_password_field;
